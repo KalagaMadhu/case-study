@@ -1,0 +1,67 @@
+#extraction methods
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas import read_csv
+path="/content/drive/MyDrive/energy.csv"
+electricity=pd.read_csv(path)
+print(electricity)
+print(electricity.shape)
+print(electricity.head(5))
+print(electricity.tail(4))
+print(electricity.info())
+print(electricity.describe())
+print("Column Data")
+print(electricity.columns)
+print(electricity[electricity['State'].str.startswith('M')])
+print(electricity[electricity['State'].str.endswith('a')])
+rcb=electricity[electricity['State']=='Andhra']
+print(len(rcb))
+print(rcb)
+rcb=electricity[electricity['State']=='Manipur']
+print(len(rcb))
+print(rcb)
+#min and max functions
+print(electricity.sort_values(by='State'))
+print(np.max(electricity['Consumption']))
+print(np.min(electricity['Consumption']))
+print(np.mean(electricity['Consumption']))
+print(electricity[electricity['State']=='Andhra']['Consumption'].max())
+print(electricity[electricity['State']=='Andhra']['Consumption'].min())
+print(electricity[electricity['State']=='Andhra']['Consumption'].mean())
+
+
+
+
+
+state1_data=electricity[electricity['State']=='Andhra']
+print("Andhra data")
+print(state1_data)
+state1_data=electricity[electricity['State']=='Karnataka']
+state2_data=electricity[electricity['State']=='Telengana']
+state3_data=electricity[electricity['State']=='Tripura']
+#line chart
+fig,axes=plt.subplots(2)
+axes[0].plot(state1_data['Date'],state1_data['Consumption'],marker="*",color='red')
+axes[1].plot(state1_data['Date'],state2_data['Consumption'],marker="*",color='green')
+plt.show()
+
+#bar chart
+fig,axes=plt.subplots(2)
+axes[0].bar(state1_data['Date'],state1_data['Consumption'],color='red')
+axes[1].bar(state2_data['Date'],state2_data['Consumption'],color='green')
+plt.show()
+
+#pie chart
+fig2,axes2=plt.subplots(2)
+state1='UP'
+state2='Kerala'
+state3='Mizoram'
+state4='Delhi'
+labels=[state1,state2,state3,state4]
+state1_total=electricity[electricity['State']==state1]['Consumption'].sum()
+state2_total=electricity[electricity['State']==state2]['Consumption'].sum()
+state3_total=electricity[electricity['State']==state3]['Consumption'].sum()
+state4_total=electricity[electricity['State']==state4]['Consumption'].sum()
+energy_total=[state1_total,state2_total,state3_total,state4_total]
+axes2[0].pie(energy_total,labels=labels,autopct='%1.1f%%')
